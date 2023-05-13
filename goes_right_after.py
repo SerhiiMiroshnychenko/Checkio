@@ -23,17 +23,17 @@ def goes_after(word: str, first: str, second: str) -> bool:
 
 def goes_after_clear(word: str, first: str, second: str) -> bool:
     try:
-        return word.index(second)-word.index(first) == 1
+        return word.index(second) - word.index(first) == 1
     except ValueError:
         return False
 
 
-goes_after_creative = lambda w, f, s: w.index(f) == w.index(s)-1 if f in w and s in w else False
+goes_after_creative = lambda w, f, s: w.index(f) == w.index(s) - 1 if f in w and s in w else False
 
 
 def goes_after_speedy(word: str, first: str, second: str) -> bool:
     i = word.find(first)
-    return i >= 0 and word.find(second) == i+1
+    return i >= 0 and word.find(second) == i + 1
 
 
 if __name__ == "__main__":
