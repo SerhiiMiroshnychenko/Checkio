@@ -57,7 +57,7 @@ def frequency_sort_3rd(items):
     # group by frequency but do not sort
     df = df.groupby([0], sort=False)[1].count()
     # create a list of each unique entry the number of times it occurs in items
-    return [x for x in df.index for i in range(items.count(x))]
+    return [x for x in df.index for _ in range(items.count(x))]
 
 
 if __name__ == "__main__":
