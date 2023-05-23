@@ -27,12 +27,60 @@ def time_converter(time: str) -> str:
     return f'{hours}:{minutes}'
 
 
+def time_converter_clear(time):
+    h, m = map(int, time[:-5].split(':'))
+    return f"{h % 12 + 12 * ('p' in time):02d}:{m:02d}"
+
+
+def time_converter_explain(time):
+    # h, m = map(int, time[:-5].split(':'))
+    splited_time = time[:-5].split(':') # splited_time == "12:30".split(':') == ["12", "30"]
+    h = int(splited_time[0]) # h = int("12")
+    m = int(splited_time[1]) # h = int("34")
+
+    # return f"{h % 12 + 12 * ('p' in time):02d}:{m:02d}"
+    # 1. hour = h % 12 + 12 * ('p' in time)
+    hour = h
+    if hour == 12: # h % 12 part
+        hour = 0 # this means conversion from "12:30 p.m." to "00:30 p.m."
+
+    hour += 12 if 'p' in time else 0
+    return "{:02d}:{:02d}".format(hour, m)
+
+
+from time import strptime as p, strftime as f
+
+time_converter_creative = lambda t: f("%H:%M", p(t.replace('.', ''), "%I:%M %p"))
+
+
+def time_converter_speedy(t):
+    import time
+    return time.strftime('%H:%M', time.strptime(t.replace('.', ''), '%I:%M %p'))
+
+
+
+def time_converter_3rd(tim):
+    import time
+    tim = tim.replace(' ','').replace('.', '')
+    times = time.strptime(tim.upper(), '%I:%M%p')
+    return time.strftime('%H:%M', times)
+
+
+
+
 if __name__ == "__main__":
     print("Example:")
-    print(time_converter("12:30 p.m."))
-    print(time_converter("9:00 a.m."))
-    print(time_converter("11:15 p.m."))
-    print(time_converter("12:00 a.m."))
+    for func in (time_converter,
+                 time_converter_clear,
+                 time_converter_explain,
+                 time_converter_speedy,
+                 time_converter_creative,
+                 time_converter_3rd):
+        print(f'\nFunction {func.__name__.upper()}:')
+        print(func("12:30 p.m."))
+        print(func("9:00 a.m."))
+        print(func("11:15 p.m."))
+        print(func("12:00 a.m."))
 
     # These "asserts" using only for self-checking and not necessary for auto-testing
     assert time_converter("12:30 p.m.") == "12:30"
