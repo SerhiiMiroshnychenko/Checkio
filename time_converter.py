@@ -19,12 +19,19 @@ time_converter('11:15 p.m.') == '23:15'
 
 def time_converter(time: str) -> str:
     meaning, suffix = time.split(' ')
-    return time
+    hours, minutes = int(meaning.split(':')[0]), int(meaning.split(':')[1])
+    hours = hours + 12 if suffix == 'p.m.' else hours
+    hours = 0 if hours == 24 else hours
+    hours, minutes = f'0{hours}' if len(str(hours)) < 2 else hours,\
+        f'0{minutes}' if len(str(minutes)) < 2 else minutes
+    return f'{hours}:{minutes}'
 
 
 if __name__ == "__main__":
     print("Example:")
     print(time_converter("12:30 p.m."))
+    print(time_converter("9:00 a.m."))
+    print(time_converter("11:15 p.m."))
 
     # These "asserts" using only for self-checking and not necessary for auto-testing
     assert time_converter("12:30 p.m.") == "12:30"
