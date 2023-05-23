@@ -58,14 +58,11 @@ def time_converter_speedy(t):
     return time.strftime('%H:%M', time.strptime(t.replace('.', ''), '%I:%M %p'))
 
 
-
 def time_converter_3rd(tim):
     import time
     tim = tim.replace(' ','').replace('.', '')
     times = time.strptime(tim.upper(), '%I:%M%p')
     return time.strftime('%H:%M', times)
-
-
 
 
 if __name__ == "__main__":
