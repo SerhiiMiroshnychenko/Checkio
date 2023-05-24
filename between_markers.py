@@ -28,16 +28,34 @@ def between_markers(text: str, begin: str, end: str) -> str:
         else text[begin_index:end_index]
 
 
+def between_markers_clear(text: str, begin: str, end: str) -> str:
+    start = text.find(begin) + len(begin) if begin in text else None
+    stop = text.find(end) if end in text else None
+    return text[start:stop]
+
+
+def between_markers_creative(txt, begin, end):
+    a, b, c = txt.find(begin), txt.find(end), len(begin)
+    return [txt[a+c:b], txt[a+c:], txt[:b], txt][2*(a<0)+(b<0)]
+
+
+between_markers_speedy = lambda text, begin, end:\
+    text[text.index(begin)+len(begin) if begin in text else 0:
+         text.index(end) if end in text else len(text)]
+
+
 if __name__ == "__main__":
 
     print("Example:")
-    print(between_markers("What is >apple<", ">", "<"), '== apple')
-    print(between_markers("<head><title>My new site</title></head>",
-                          "<title>", "</title>"), '== My new site')
-    print(between_markers("No[/b] hi", "[b]", "[/b]"), '== No')
-    print(between_markers("No [b]hi", "[b]", "[/b]"), '== hi')
-    print(between_markers("No hi", "[b]", "[/b]"), '== No hi')
-    print(between_markers("No <hi>", ">", "<"), '== ')
+    for func in (between_markers, between_markers_clear, between_markers_creative, between_markers_speedy):
+        print('\n', func.__name__.upper())
+        print(func("What is >apple<", ">", "<"), '== apple')
+        print(func("<head><title>My new site</title></head>",
+                              "<title>", "</title>"), '== My new site')
+        print(func("No[/b] hi", "[b]", "[/b]"), '== No')
+        print(func("No [b]hi", "[b]", "[/b]"), '== hi')
+        print(func("No hi", "[b]", "[/b]"), '== No hi')
+        print(func("No <hi>", ">", "<"), '== ')
 
 
     assert between_markers("What is >apple<", ">", "<") == "apple"
