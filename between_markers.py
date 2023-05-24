@@ -5,14 +5,49 @@
 Початкова і кінцева позначка завжди різні
 Якщо не має початкової позначки, тоді перший символ повинен
 знаходитись на початку рядка
-Якщо не має кінцевої позначки, тоді останій символ повинен
+Якщо не має кінцевої позначки, тоді останній символ повинен
 знаходитись в кінці рядка
 Якщо початкова і кінцева позначки відсутні, тоді необхідно
 просто повернути рядок цілком
-Якщо кінцева позначка іде перед початковою повернути пустий рядок
+Якщо кінцева позначка іде перед початковою повернути порожній рядок
 Вхідні дані: Три аргументи. Всі стрічки. Другий і третій аргумент
 - це початкова і кінцева позначки.
 Вихідні дані: Стрічка.
 Як це використовується: для аналізу текстів
-Передумова: не може бути більше однієї початкої і однієї кінцевої позначки
+Передумова: не може бути більше однієї початкової та однієї кінцевої позначки
 """
+
+def between_markers(text: str, begin: str, end: str) -> str:
+    """
+    returns substring between two given markers
+    """
+    if begin not in text and end not in text:
+        return text
+    return '' if (begin_index := 0 if begin not in text else text.index(begin)+len(begin)) \
+                 > (end_index := len(text) if end not in text else text.index(end))\
+        else text[begin_index:end_index]
+
+
+if __name__ == "__main__":
+
+    print("Example:")
+    print(between_markers("What is >apple<", ">", "<"), '== apple')
+    print(between_markers("<head><title>My new site</title></head>",
+                          "<title>", "</title>"), '== My new site')
+    print(between_markers("No[/b] hi", "[b]", "[/b]"), '== No')
+    print(between_markers("No [b]hi", "[b]", "[/b]"), '== hi')
+    print(between_markers("No hi", "[b]", "[/b]"), '== No hi')
+    print(between_markers("No <hi>", ">", "<"), '== ')
+
+
+    assert between_markers("What is >apple<", ">", "<") == "apple"
+    assert (
+        between_markers("<head><title>My new site</title></head>", "<title>", "</title>")
+        == "My new site"
+    )
+    assert between_markers("No[/b] hi", "[b]", "[/b]") == "No"
+    assert between_markers("No [b]hi", "[b]", "[/b]") == "hi"
+    assert between_markers("No hi", "[b]", "[/b]") == "No hi"
+    assert between_markers("No <hi>", ">", "<") == ""
+
+    print("The mission is done! Click 'Check Solution' to earn rewards!")
